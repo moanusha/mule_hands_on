@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="5b198875-9793-4472-8e14-71321abe716d" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="5800e60c-74dc-4117-ba5c-fad1f3f7524f" >
+	</http:request-config>
+	<flow name="error_handling-30Flow" doc:id="5e84faa3-5e69-4c04-8505-4e133775962b" >
+		<http:listener doc:name="Listener" doc:id="25415a32-5ed8-4a6e-a8b2-7220335e679c" config-ref="HTTP_Listener_config" path="/errorhandling"/>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="bb714ed5-5410-4078-9e5e-5559bb9b9eb0" />
+		<http:request method="GET" doc:name="Request" doc:id="6107dbe6-9219-4cd7-81c9-c8a9406cccf2" config-ref="HTTP_Request_configuration" url="ahgdghjdfg"/>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="07c3d322-f707-4831-8ee6-e7bc0d21bb9e" type="ANY">
+				<set-payload value='#["this is custom error handler"]' doc:name="Set Payload" doc:id="6d7abc60-88d6-4458-a532-3e9d3d8c4071" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+	<flow name="error_handling-30Flow1" doc:id="3ecfbded-d059-4ab8-b38e-e69b072d88c3" >
+		<http:listener doc:name="Listener" doc:id="188e7bfb-38bd-4636-b4e2-c59201df10e9" config-ref="HTTP_Listener_config" path="/errorpropragate"/>
+		<set-payload value='#["this is error propragate"]' doc:name="Set Payload" doc:id="fe4255af-953f-4699-a5f5-f776ed1c9f89" />
+		<http:request method="GET" doc:name="Request" doc:id="68146ff4-abfe-44d7-9907-5d1ac74b6852" url="adghjkoiuytr"/>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="f778ec80-7be3-4322-9559-06fa35885d95" type="ANY">
+				<set-payload value='#["this is custom error propragate"]' doc:name="Set Payload" doc:id="3246793f-2b75-470c-b0f7-115460825c87" />
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+	<flow name="error_handling-30Flow4" doc:id="62251361-cf6c-4ab9-bc0c-f4f7d1433ef1" >
+	</flow>
+	<flow name="error_handling-30Flow2" doc:id="7f274bba-bb88-48cc-a63f-c32d31e813d0" >
+		<http:listener doc:name="Listener" doc:id="b5161856-9887-4d1b-86ac-1e0aa38eb1ad" config-ref="HTTP_Listener_config" path="/mule_error"/>
+		<flow-ref doc:name="Flow Reference" doc:id="39f40c19-5b3c-4af8-8741-c583c4a61a18" name="error_handling-30Flow3"/>
+		<set-payload value='#["this is aft flow reference"]' doc:name="Set Payload" doc:id="8d63b3a4-6c97-4e6f-a088-3c60e18dd497" />
+	</flow>
+	<flow name="error_handling-30Flow5" doc:id="d62f040a-f52f-4239-aff9-0a086f59b2e9" >
+	</flow>
+	<flow name="error_handling-30Flow3" doc:id="3dcce1ee-7f5a-41c0-8943-190bf26ca8ee" >
+		<http:request method="GET" doc:name="Request" doc:id="d753666a-cb2e-49ea-8199-52ad043c55da" url="asdfghjqwer"/>
+		<set-payload value='#["this is sub flow request payload"]' doc:name="Set Payload" doc:id="43d97c3a-fb78-40cb-b773-2a12ff89f856" />
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="07aed28b-c9c5-444c-b0af-d465c0d8e809" type="HTTP:CONNECTIVITY">
+				<set-payload value='#["this is error handling propagate"]' doc:name="Set Payload" doc:id="ae709e2e-d5c4-4f9e-86db-cc01e47b543d" />
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+</mule>

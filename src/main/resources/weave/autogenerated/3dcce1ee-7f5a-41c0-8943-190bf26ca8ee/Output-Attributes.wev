@@ -1,0 +1,9 @@
+%dw 2.0
+
+type auto_3dcce1ee_7f5a_41c0_8943_190bf26ca8ee_Output_Attributes = {|
+  statusCode: Number, 
+  reasonPhrase: String, 
+  headers: { _?: String }
+|} {"typeAlias": "HttpResponseAttributes",
+"typeId": "org.mule.extension.http.api.HttpResponseAttributes"}
+
